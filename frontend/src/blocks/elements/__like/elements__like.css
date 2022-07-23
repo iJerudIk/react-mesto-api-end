@@ -1,0 +1,15 @@
+.elements__like{
+  width: 22px;
+  height: 19px;
+  background-image: url('../../../images/like-inactive.svg');
+  background-color: #fff;
+  margin: 5px 5px 1px 0;
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.3s opacity ease-in;
+}
+
+.elements__like:hover{
+  opacity: 0.5;
+}

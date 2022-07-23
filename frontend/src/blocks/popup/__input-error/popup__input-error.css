@@ -1,0 +1,10 @@
+.popup__input-error{
+  position: absolute;
+  top: calc(100% + 5px);
+  color: #FF0000;
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 12px;  /* Наставник посоветовал пойти вразрез с макетом, т. к. сообщение об ошибки просто не влазит туда и в крупных проектах в таких случаях надо идти к дизайнеру */
+}

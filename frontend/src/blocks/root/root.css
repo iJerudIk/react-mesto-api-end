@@ -1,0 +1,23 @@
+#root{
+  min-height: 100vh;
+  margin: 0;
+  padding: 45px 0 60px;
+  background-color: #000;
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar-button{
+  background-repeat:no-repeat;
+  width:0px;
+  height:0px;
+}
+::-webkit-scrollbar{
+  height: 0px;
+  width: 0px;
+}
+
+@media screen and (max-width: 767px){
+  #root{
+    padding: 28px 0 36px;
+  }
+}

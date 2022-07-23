@@ -1,0 +1,8 @@
+scp -r ./controllers/users.js ijerudik@51.250.21.24:/home/ijerudik/react-mesto-api-full/backend/controllers/users.js   -     users.js
+scp -r ./routes/users.js ijerudik@51.250.21.24:/home/ijerudik/react-mesto-api-full/backend/routes/users.js             -     users.js
+scp -r ./middlewares/cors.js ijerudik@51.250.21.24:/home/ijerudik/react-mesto-api-full/backend/middlewares/cors.js     -     cors.js
+scp -r ./middlewares/auth.js ijerudik@51.250.21.24:/home/ijerudik/react-mesto-api-full/backend/middlewares/auth.js     -     auth.js
+scp -r ./app.js ijerudik@51.250.21.24:/home/ijerudik/react-mesto-api-full/backend/app.js                               -     app.js
+
+
+pm2 kill && pm2 start react-mesto-api-full/backend/app.js

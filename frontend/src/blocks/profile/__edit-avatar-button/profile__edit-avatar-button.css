@@ -1,0 +1,13 @@
+.profile__edit-avatar-button{
+  width: 26px;
+  height: 26px;
+  opacity: 0;
+  cursor: pointer;
+  transition: 0.3s opacity ease-in;
+}
+
+.profile__avatar-darks:hover .profile__edit-avatar-button{
+  opacity: 1;
+  cursor: pointer;
+  transition: 0.3s opacity ease-in;
+}
