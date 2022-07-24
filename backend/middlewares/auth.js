@@ -8,16 +8,22 @@ const handleAuthError = (res) => {
 };
 
 module.exports.auth = (req, res, next) => {
-  if (req.cookies.token) handleAuthError(res);
+  if (!req.cookies.token){
+    res.status(401).send({ message: 'Кука нет' });
+    res.end();
+  }
   else {
     let payload;
 
     try {
       payload = jwt.verify(
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmQ5MmU4ZmIxOGExMDM4OGIyZTdlMmMiLCJpYXQiOjE2NTg1Njk0MzEsImV4cCI6MTY1OTE3NDIzMX0.UEiMVqbtSEAtYldMxAs26McyLcSZHLH7jybv20-TFBE',
+        req.cookies.token,
         'super-strong-secret'
       );
-    } catch (err) { res.status(401).send({ message: 'Токен неверен' }); }
+    } catch (err) {
+       res.status(401).send({ message: 'Токен неверен' });
+       res.end();
+    }
 
     req.user = payload;
     next();
