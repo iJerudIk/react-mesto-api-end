@@ -6,8 +6,7 @@ const {
   getUserById,
   getCurrentUser,
   updateUser,
-  updateUserAvatar,
-  logoutUser,
+  updateUserAvatar
 } = require('../controllers/users');
 
 router.get('/', getUsers); // Получение пользователей
@@ -28,6 +27,5 @@ router.patch('/me/avatar', celebrate({
     avatar: Joi.string().pattern(/(https?:\/\/)(w{3}\.)?([\W\\\da-z-]{2,200})/),
   }),
 }), updateUserAvatar); // Обновление аватара пользователя
-router.delete('/me/logout', logoutUser);
 
 module.exports = { userRoutes: router };

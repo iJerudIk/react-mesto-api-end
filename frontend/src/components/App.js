@@ -115,9 +115,10 @@ function App() {
   function onAuthorize(password, email) {
     auth.authorize(password, email)
       .then((res) => {
-        if(res){
+        if(res.token){
+          localStorage.setItem('token', res.token);
           setLogged(true);
-          history.push('/cards')
+          history.push('/cards');
         }else{
           setRegisterStatus(false);
           setIsInfoTooltipPopupOpen(true);
@@ -126,28 +127,32 @@ function App() {
       .catch((err) => {console.log(`Ошибка : ${err}`)});
   }
   function onLogout() {
-    auth.logout();
+    localStorage.removeItem('token');
     setLogged(false);
     history.push('/sign-in');
   }
 
 
   React.useEffect(() => {
-    api.getUserInfo()
-      .then((userInfo) => {
-        setCurrentUser(userInfo);
-        setLogged(true);
-        history.push('/cards')
-      })
-      .catch((err) => {
-        console.log(`Ошибка : ${err}`);
-      })
+    const token = localStorage.getItem('token');
+    if(token) {
+      api.setToken(token);
 
-    api.getInitialCards()
-      .then((cards) => {setCards(cards)})
-      .catch((err) => {
-        console.log(`Ошибка : ${err}`);
-      })
+      api.getUserInfo()
+        .then((userInfo) => {
+          setCurrentUser(userInfo);
+          setLogged(true);
+          history.push('/cards');
+        })
+        .catch((err) => {
+          console.log(`Ошибка : ${err}`);
+        })
+      api.getInitialCards()
+        .then((cards) => {setCards(cards)})
+        .catch((err) => {
+          console.log(`Ошибка : ${err}`);
+        })
+    }else{ api.deleteToken(); }
   }, [loggedIn, history]);
 
   return (

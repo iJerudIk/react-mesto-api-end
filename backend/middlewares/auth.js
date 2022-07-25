@@ -1,28 +1,33 @@
+require('dotenv').config();
+
 const jwt = require('jsonwebtoken');
 
-//require('dotenv').config();
-//const { NODE_ENV, JWT_SECRET } = process.env;
+const { NODE_ENV, JWT_SECRET } = process.env;
 
-const handleAuthError = (res) => {
-  res.status(401).send({ message: 'Необходима авторизация' });
+const handleAuthError = (req, res, mess) => {
+  res.status(401).send({
+    message: mess,
+    adress: `From ${req.headers.origin} to ${req.headers.host}`
+  });
 };
 
 module.exports.auth = (req, res, next) => {
-  if (!req.cookies.token){
-    res.status(401).send({ message: 'Кука нет' });
-    res.end();
+  const token = req.headers.token;
+  if (!token){
+    handleAuthError(req, res, 'Токена нет');
+    return res.end();
   }
   else {
     let payload;
 
     try {
       payload = jwt.verify(
-        req.cookies.token,
-        'super-strong-secret'
+        token,
+        NODE_ENV === 'production' ? JWT_SECRET : 'super-strong-secret'
       );
     } catch (err) {
-       res.status(401).send({ message: 'Токен неверен' });
-       res.end();
+        handleAuthError(req, res, 'Токен неверен');
+        return res.end();
     }
 
     req.user = payload;

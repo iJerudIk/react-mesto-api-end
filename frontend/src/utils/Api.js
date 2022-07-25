@@ -4,6 +4,9 @@ class Api {
     this._headers = options.headers;
   }
 
+  setToken(token) { this._headers['token'] = token; }
+  deleteToken() { delete this._headers['token']; }
+
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
       method : 'GET',
@@ -90,8 +93,8 @@ class Api {
 }
 
 export const api = new Api({
-  baseUrl: 'http://api.doesntmatter.nomoredomains.xyz',
+  baseUrl: 'https://api.doesntmatter.nomoredomains.xyz',
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json'
   }
 });

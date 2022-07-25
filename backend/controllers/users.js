@@ -1,10 +1,11 @@
+require('dotenv').config();
+
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 const { checkErrors } = require('../utils/utils');
 
-//require('dotenv').config();
-//const { NODE_ENV, JWT_SECRET } = process.env;
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getUsers = (req, res) => {
   User.find({})
@@ -83,21 +84,10 @@ module.exports.login = (req, res) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        'super-strong-secret',
+        NODE_ENV === 'production' ? JWT_SECRET : 'super-strong-secret',
         { expiresIn: '7d' }
       );
-      res.cookie('token', token, {
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none'
-      });
       res.send({ token });
     })
     .catch((err) => { res.status(401).send({ message: err.message }); });
-};
-
-module.exports.logoutUser = (req, res) => {
-      //res.cookie('token', '', { maxAge: -1 });
-      res.send();
 };

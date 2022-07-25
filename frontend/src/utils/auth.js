@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://api.doesntmatter.nomoredomains.xyz';
+export const BASE_URL = 'https://api.doesntmatter.nomoredomains.xyz';
 
 export const register = (password, email) => {
   return fetch(`${BASE_URL}/signup`, {
@@ -26,28 +26,4 @@ export const authorize = (password, email) => {
   })
   .then((response => response.json()))
   .catch(err => {console.log(err)})
-}
-
-export const logout = () => {
-  return fetch(`${BASE_URL}/users/me/logout`, {
-    method: 'DELETE',
-    credentials: 'include',
-    headers: {
-      "Content-Type": "application/json"
-    },
-  })
-  .catch(err => {console.log(err)})
-}
-
-export const getContent = () => {
-  return fetch(`${BASE_URL}/users/me`, {
-    method: 'GET',
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-  .then(res => res.json())
-  .then((data) => {
-    return data;
-  })
 }

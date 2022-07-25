@@ -13,17 +13,17 @@ const { auth } = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { corsAccessHandler } = require('./middlewares/cors');
 
-/*const limiter = rateLimit({
+const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
-});*/
+});
 
 const app = express(); // Создание приложения
 mongoose.connect('mongodb://localhost:27017/mestodb'); // Подключение к БД
 
 app.use(cookieParser());
 app.use(bodyParser.json());
-//app.use(limiter);
+app.use(limiter);
 
 app.use(corsAccessHandler);
 
