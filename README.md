@@ -12,3 +12,4 @@ Web-приложение, выполняющее роль фотоальбома
  3. Мультипарадигменный язык программирования [JavaScript](https://ru.wikipedia.org/wiki/JavaScript).
 
 Проект размещён на домене [http://doesntmatter.nomoredomains.xyz](http://doesntmatter.nomoredomains.xyz)
+IP сервера: 51.250.21.24

@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
@@ -50,6 +52,8 @@ app.use('/users', auth, userRoutes);
 app.use(errorLogger);
 
 app.use(errors());
+
+app.use((err, req, res, next) => res.status(err.statusCode).send({ message: err.message }));
 
 app.use((req, res) => {
   res.status(404).send({ message: 'Страница не найдена' });
