@@ -16,7 +16,7 @@ module.exports.getUserById = (req, res, next) => {
   User.findById(req.params.userId)
     .then((data) => {
       if (data) res.send(data);
-      else throw new NotFoundError('Пользователь не найдена');
+      else throw new NotFoundError('Пользователь не найден');
     })
     .catch((err) => { checkErrors(err, res, next); });
 };
@@ -24,7 +24,7 @@ module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((data) => {
       if (data) res.send(data);
-      else throw new NotFoundError('Пользователь не найдена');
+      else throw new NotFoundError('Пользователь не найден');
     })
     .catch((err) => { checkErrors(err, res, next); });
 };
@@ -59,7 +59,7 @@ module.exports.updateUser = (req, res, next) => {
   )
     .then((data) => {
       if (data) res.send(data);
-      else throw new NotFoundError('Пользователь не найдена');
+      else throw new NotFoundError('Пользователь не найден');
     })
     .catch((err) => { checkErrors(err, res, next); });
 };
@@ -73,7 +73,7 @@ module.exports.updateUserAvatar = (req, res, next) => {
   )
     .then((data) => {
       if (data) res.send(data);
-      else throw new NotFoundError('Пользователь не найдена');
+      else throw new NotFoundError('Пользователь не найден');
     })
     .catch((err) => { checkErrors(err, res, next); });
 };

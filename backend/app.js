@@ -15,6 +15,8 @@ const { auth } = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { corsAccessHandler } = require('./middlewares/cors');
 
+const NotFoundError = require('./errors/not-found-error');
+
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -30,6 +32,12 @@ app.use(limiter);
 app.use(corsAccessHandler);
 
 app.use(requestLogger);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.post('/signup', celebrate({
   body: Joi.object().keys({
@@ -50,13 +58,13 @@ app.use('/cards', auth, cardRoutes);
 app.use('/users', auth, userRoutes);
 
 app.use(errorLogger);
-
 app.use(errors());
 
-app.use((err, req, res, next) => res.status(err.statusCode).send({ message: err.message }));
+app.use((req, res, next) => { next(new NotFoundError('Страница не найдена')); });
 
-app.use((req, res) => {
-  res.status(404).send({ message: 'Страница не найдена' });
+app.use((err, req, res, next) => {
+  res.status(err.statusCode).send({ message: err.message });
+  next();
 });
 
 // Запуск сервера

@@ -2,18 +2,16 @@ const jwt = require('jsonwebtoken');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-const handleAuthError = (req, res, mess) => {
-  res.status(401).send({
-    message: mess,
-    adress: `From ${req.headers.origin} to ${req.headers.host}`,
-  });
+const UnauthorizedError = require('../errors/unauthorized-error');
+
+const handleAuthError = () => {
+  throw new UnauthorizedError('Необходима авторизация');
 };
 
 module.exports.auth = (req, res, next) => {
-  const token = //req.headers;
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmRlYmZhOTFiNjEwZDc3NzM1YzY4NWMiLCJpYXQiOjE2NTg4NDEyODUsImV4cCI6MTY1OTQ0NjA4NX0.UAQMAE-Bhy_nPwMr45_S2xpsDo0DHV91FaRyFONv8yg';
+  const { token } = req.headers;
 
-  if (!token) handleAuthError(req, res, 'Токена нет');
+  if (!token) next(handleAuthError());
   else {
     let payload;
 
@@ -22,7 +20,7 @@ module.exports.auth = (req, res, next) => {
         token,
         NODE_ENV === 'production' ? JWT_SECRET : 'super-strong-secret',
       );
-    } catch (err) { handleAuthError(req, res, 'Токена неверен'); }
+    } catch (err) { next(handleAuthError()); }
 
     req.user = payload;
     next();
