@@ -2,7 +2,6 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const rateLimit = require('express-rate-limit');
 const { celebrate, Joi, errors } = require('celebrate');
@@ -25,7 +24,6 @@ const limiter = rateLimit({
 const app = express(); // Создание приложения
 mongoose.connect('mongodb://localhost:27017/mestodb'); // Подключение к БД
 
-app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(limiter);
 
@@ -48,12 +46,14 @@ app.post('/signup', celebrate({
     password: Joi.string().required(),
   }),
 }), createUser);
+
 app.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
 }), login);
+
 app.use('/cards', auth, cardRoutes);
 app.use('/users', auth, userRoutes);
 
@@ -63,7 +63,8 @@ app.use(errors());
 app.use((req, res, next) => { next(new NotFoundError('Страница не найдена')); });
 
 app.use((err, req, res, next) => {
-  res.status(err.statusCode).send({ message: err.message });
+  res.status(err.statusCode);
+  res.send({ message: err.message });
   next();
 });
 
